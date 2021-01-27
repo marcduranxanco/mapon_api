@@ -1,6 +1,5 @@
 USE `mapon_sql`;
 INSERT INTO `Users`
-    (`id`, `user_name`, `password`, `creation_date`, `update_date`)
+    (`id`, `username`, `password`, `created_at`, `updated_at`)
 VALUES
-    (NULL, 'Administrator', 'administrator', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (NULL, 'user', 'password', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (NULL, 'administrator', '$2y$10$BU4YOBIJTflsw8pYPvSYVeJXPwtcbvX1w4cJ6/lDSDpO5.lDZner6', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
