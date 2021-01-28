@@ -34,6 +34,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <a href="logout.php" class="btn btn-danger">Sign Out</a>
             </div>
         </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-md-12">
+                <form id="dateForm">
+                    <label for="datetime">From:</label>
+                    <input type="date" id="from" name="from">
+                    <input type="date" id="till" name="till">
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
     </div>
     <div class="container h-100">
         <div id="map" class="col-md-12"></div>
