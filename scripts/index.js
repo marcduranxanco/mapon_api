@@ -27,33 +27,40 @@ window.onload = () => {
       `${fromDate.toISOString().split('.')[0]}Z`,
       `${tillDate.toISOString().split('.')[0]}Z`
       );
-    prepareMap(route);
+    prepareData(route);
   }
 
-  const prepareMap = (route) => { 
-    console.log(route)
+  const prepareData = (route) => { 
+    console.log("prepareData")
+    console.log(JSON.stringify(route.data.units));
+    let routeCoordinates = [
+      { lat: 42.18223, lng: 24.30051 },
+      { lat: 42.14168, lng: 42.18225 },
+      { lat: -18.142, lng: 178.431 },
+      { lat: -27.467, lng: 153.027 },
+    ];
+    initMap(routeCoordinates);
    };
 
-}
+    let barcelona = [
+      { lat: 41.390205, lng: 2.154007 }
+    ];
+    const initMap = (routeCoordinates = barcelona) => {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 6,
+      center: { lat: routeCoordinates[0].lat, lng: routeCoordinates[0].lng },
+      mapTypeId: "terrain",
+    });
+  
+    const flightPath = new google.maps.Polyline({
+      path: routeCoordinates,
+      geodesic: true,
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+    flightPath.setMap(map);
+  };
 
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
-    center: { lat: 0, lng: -180 },
-    mapTypeId: "terrain",
-  });
-  const flightPlanCoordinates = [
-    { lat: 37.772, lng: -122.214 },
-    { lat: 21.291, lng: -157.821 },
-    { lat: -18.142, lng: 178.431 },
-    { lat: -27.467, lng: 153.027 },
-  ];
-  const flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: "#FF0000",
-    strokeOpacity: 1.0,
-    strokeWeight: 2,
-  });
-  flightPath.setMap(map);
+  initMap();
 }
