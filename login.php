@@ -3,9 +3,9 @@
 session_start();
 require_once "config.php";
 
-// If the user is logged in, then redirect him to home page
+// If the user is logged in, then redirect him to index page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: home.php");
+    header("location: index.php");
     exit;
 }
 
@@ -16,7 +16,6 @@ $username_err = $password_err = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //Check user/password empty
     if (empty(trim($_POST["username"]))) {
         $username_err = "Please enter username.";
     } else {
@@ -38,25 +37,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 $stmt->store_result();
 
-                // Username: exists -> verify password
                 if ($stmt->num_rows == 1) {
                     $stmt->bind_result($id, $username, $hashed_password);
                     if ($stmt->fetch()) {
-                        // Password: correct -> start a new session, and redirect
                         if (password_verify($password, $hashed_password)) {
                             session_start();
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
-                            header("location: home.php");
+                            header("location: index.php");
                         }
-                        // Password: incorrect -> return error
                         else {
                             $password_err = "The password you entered was not valid.";
                         }
                     }
                 }
-                // Username: doesn't exists -> error
                 else {
                     $username_err = "No account found with that username.";
                 }
