@@ -1,10 +1,13 @@
 # Mapon API test
 
 ## Local deploy
-This project must be deployed with docker.
+Before deploying the project you must create the __.env__ file. It's enough to rename the __example.env__ file to __.env__
+After that, you must implement it with Docker.
+
 ```bash
 git clone tps://github.com/marcduranxanco/mapon_api.git
 cd mapon_api
+cp example.env .env
 docker-compose up
 ```
 
