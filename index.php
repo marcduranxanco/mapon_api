@@ -2,6 +2,9 @@
 // Init session
 session_start();
 
+require_once "dotEnv.php";
+load('.env');
+
 // Check user loggin or redirect
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -21,7 +24,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <!-- Scripts -->
     <script src="scripts/index.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4LetuoN7pA8v0DQ1hluyvOF6iWUpOlk&callback=initMap&libraries=&v=weekly" defer></script>
+    <script src=<?php echo "https://maps.googleapis.com/maps/api/js?key=".getenv('GMAPS_KEY')."&callback=initMap&libraries=&v=weekly defer"?>></script>
     <!-- Scripts -->
 </head>
 <body>
