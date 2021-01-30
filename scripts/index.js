@@ -2,7 +2,7 @@
 console.log("Script init");
 
 window.onload = () => {
-
+  //FORM LOGICS
   const dateForm = document.getElementById('dateForm');
   let from = document.getElementById("from");
   let till = document.getElementById("till");
@@ -30,37 +30,35 @@ window.onload = () => {
     prepareData(route);
   }
 
-  const prepareData = (route) => { 
-    console.log("prepareData")
-    console.log(JSON.stringify(route.data.units));
-    let routeCoordinates = [
-      { lat: 42.18223, lng: 24.30051 },
-      { lat: 42.14168, lng: 42.18225 },
-      { lat: -18.142, lng: 178.431 },
-      { lat: -27.467, lng: 153.027 },
-    ];
-    initMap(routeCoordinates);
-   };
-
-    let barcelona = [
-      { lat: 41.390205, lng: 2.154007 }
-    ];
-    const initMap = (routeCoordinates = barcelona) => {
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 6,
-      center: { lat: routeCoordinates[0].lat, lng: routeCoordinates[0].lng },
-      mapTypeId: "terrain",
-    });
-  
-    const flightPath = new google.maps.Polyline({
-      path: routeCoordinates,
-      geodesic: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 1.0,
-      strokeWeight: 2,
-    });
-    flightPath.setMap(map);
+  const prepareData = (route) => {
+    console.log(route);
   };
 
-  initMap();
+  //MAP LOGICS
+  let routeCoordinates = new google.maps.MVCArray();
+  routeCoordinates.push( new google.maps.LatLng( 41.390205, 2.154007 ));
+  routeCoordinates.push( new google.maps.LatLng( 41.979401, 2.821426 ));
+
+  var initMap = (routeCoordinates) => {
+    const divMap = document.getElementById("map");
+  
+    const mapOptions = {
+      center: new google.maps.LatLng(41.390205, 2.154007),
+      zoom: 5,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+  
+    const map = new google.maps.Map(divMap, mapOptions);
+  
+    const polyLineOptions = {
+      path: routeCoordinates,
+      strokeColor: "#FF0000",
+      strokeWeight: 2
+    };
+  
+    var polyline = new google.maps.Polyline(polyLineOptions);
+    polyline.setMap(map);
+  }
+
+  initMap(routeCoordinates);
 }
