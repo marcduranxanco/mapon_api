@@ -1,8 +1,16 @@
 "use strict";
 console.log("Script init");
 
-var initMap = (routeCoordinates = undefined) => {
+
+var initMap = (routeCoordinates = null) => {
   const divMap = document.getElementById("map");
+
+  let defaultRoute = new google.maps.MVCArray();
+  defaultRoute.push( new google.maps.LatLng( 41.390205, 2.154007 ));
+
+  if(routeCoordinates == null){
+    routeCoordinates = defaultRoute;
+  }
 
   const mapOptions = {
     center: new google.maps.LatLng(routeCoordinates.getArray()[0].lat(), routeCoordinates.getArray()[0].lng()),
@@ -50,6 +58,7 @@ var setMap = (url) => {
       console.log(route.getArray().length);
       if(route.getArray().length == 0){
         showAlert(true);
+        initMap();
         console.log("No routes found");
       }else{
         initMap(route);
@@ -84,10 +93,8 @@ var showAlert = (status) => {
 
 window.onload = () => {
   showAlert(false)
-  let defaultRoute = new google.maps.MVCArray();
-  defaultRoute.push( new google.maps.LatLng( 41.390205, 2.154007 ));
 
-  initMap(defaultRoute);
+  initMap();
 
   const dateForm = document.getElementById('dateForm');
   dateForm.onsubmit = (e) => {
