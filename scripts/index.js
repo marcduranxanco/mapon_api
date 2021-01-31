@@ -1,13 +1,12 @@
 "use strict";
 console.log("Script init");
 
-
 var initMap = (routeCoordinates = undefined) => {
   const divMap = document.getElementById("map");
 
   const mapOptions = {
     center: new google.maps.LatLng(routeCoordinates.getArray()[0].lat(), routeCoordinates.getArray()[0].lng()),
-    zoom: 5,
+    zoom: 10,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
@@ -48,7 +47,13 @@ var setMap = (url) => {
     .then(function(data) {
       data = (JSON.parse(data)).data.units[0].routes;
       var route = processData(data);
-      initMap(route);
+      console.log(route.getArray().length);
+      if(route.getArray().length == 0){
+        showAlert(true);
+        console.log("No routes found");
+      }else{
+        initMap(route);
+      }
       return route;
     })
     .catch(function(err) {
@@ -68,8 +73,17 @@ var processData = (data) => {
   return route;
 }
 
-window.onload = () => {
+var showAlert = (status) => {
+  let alertDiv = document.getElementById('alert-div');
+  if (status === true) {
+    alertDiv.style.display = "block";
+  } else {
+    alertDiv.style.display = "none";
+  }
+}
 
+window.onload = () => {
+  showAlert(false)
   let defaultRoute = new google.maps.MVCArray();
   defaultRoute.push( new google.maps.LatLng( 41.390205, 2.154007 ));
 
@@ -77,6 +91,7 @@ window.onload = () => {
 
   const dateForm = document.getElementById('dateForm');
   dateForm.onsubmit = (e) => {
+    showAlert(false);
     e.preventDefault();
     setMap(getUrl());
   }

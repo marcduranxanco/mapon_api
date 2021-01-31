@@ -47,6 +47,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 </form>
             </div>
         </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="alert alert-danger" role="alert" id="alert-div">
+                No routes found!
+            </div>
+        </div>
     </div>
     <div class="container h-100">
         <div id="map" class="col-md-12"></div>
