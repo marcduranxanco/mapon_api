@@ -53,9 +53,13 @@ var setMap = (url) => {
         return response.text();
     })
     .then(function(data) {
-      data = (JSON.parse(data)).data.units[0].routes;
+      try {
+        data = (JSON.parse(data)).data.units[0].routes;
+      } catch (error) {
+        console.log(error);
+        data = [];
+      }
       var route = processData(data);
-      console.log(route.getArray().length);
       if(route.getArray().length == 0){
         showAlert(true);
         initMap();
