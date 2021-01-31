@@ -24,59 +24,60 @@ var initMap = (routeCoordinates = undefined) => {
 }
 
 // //DATA LOGICS
-// var obtainData = () => {
+var getUrl = () => {
+  let from = document.getElementById("from");
+  let till = document.getElementById("till");
 
+  let fromDate = (from.value) ? new Date(from.value) : new Date();
+  let tillDate = (till.value) ? new Date(till.value) : new Date();
 
-//   
-//   dateForm.onsubmit = (e) => {
-//     e.preventDefault();
+  from = `${fromDate.toISOString().split('.')[0]}Z`;
+  till = `${tillDate.toISOString().split('.')[0]}Z`;
 
-//     let route = getData(
-//       `${fromDate.toISOString().split('.')[0]}Z`,
-//       `${tillDate.toISOString().split('.')[0]}Z`
-//       );
-//       console.log(route);
-//     let  prepareData(route);
+  let url = `https://mapon.com/api/v1/route/list.json?key=2ab183444385fa5024dcedece4ed0f4c0be4cb06&from=${from}&till=${till}`;
 
-  
-//   let from = document.getElementById("from");
-//   let till = document.getElementById("till");
+  return url;
+}
 
-//   const getData = (from, till) => { 
-//     var xhr = new XMLHttpRequest()
-//     console.log(from, till);
-//     xhr.open("GET",`https://mapon.com/api/v1/route/list.json?key=2ab183444385fa5024dcedece4ed0f4c0be4cb06&from=${from}&till=${till}`,true);
-//     xhr.send();
-//     xhr.onreadystatechange = function(){
-//         if(xhr.readyState == 4 && xhr.status == 200){
-//           console.log(JSON.parse(xhr.responseText));
-//           return JSON.parse(xhr.responseText);
-//         }
-//     }
-//   };
+//Fetch del url
+var setMap = (url) => {
+  fetch(url)
+    .then(function(response) {
+        return response.text();
+    })
+    .then(function(data) {
+      data = (JSON.parse(data)).data.units[0].routes;
+      var route = processData(data);
+      initMap(route);
+      return route;
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+}
 
-//   const prepareData = (route) => {
-//     console.log(route);
-//   };
-// }
-// }
-
+//Convertir data a map coordinates
+var processData = (data) => {
+  let route = new google.maps.MVCArray();
+  data.forEach(element => {
+    if(element.type == "route"){
+      route.push(new google.maps.LatLng( element.start.lat, element.start.lng))
+      route.push(new google.maps.LatLng( element.end.lat, element.end.lng))
+    }
+  });
+  return route;
+}
 
 window.onload = () => {
 
-  //MAP LOGICS
   let defaultRoute = new google.maps.MVCArray();
   defaultRoute.push( new google.maps.LatLng( 41.390205, 2.154007 ));
-
 
   initMap(defaultRoute);
 
   const dateForm = document.getElementById('dateForm');
   dateForm.onsubmit = (e) => {
     e.preventDefault();
-    let defaultRoute = new google.maps.MVCArray();
-    defaultRoute.push( new google.maps.LatLng( 40.416775, -3.703790 ));
-    defaultRoute.push( new google.maps.LatLng( 41.979401, 2.821426 ));
-    initMap(defaultRoute);
+    setMap(getUrl());
   }
 }
