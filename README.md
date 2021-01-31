@@ -26,11 +26,11 @@ User: administrator
 Password: administrator
 
 # Objectives / Achievements
-- :white_check_mark: Username, Password fields, and a Login button .
-- :white_check_mark: Users are stored in a database.
-- :white_check_mark: Displays a Google Maps map with the route taken by the car (polyline)
-- :negative_squared_cross_mark: Displays a Google Maps map with the stopping places (icons)
-- :white_check_mark: Route and stopping places data is requested from the Mapon API
-- :white_check_mark: Users must be able to choose a different time period (date from/to)
-- :white_check_mark: The project must also include a DB schema or migration script.
-- :white_check_mark: Can not use frameworks (Laravel etc)
+- :heavy_check_mark: Username, Password fields, and a Login button .
+- :heavy_check_mark: Users are stored in a database.
+- :heavy_check_mark: Displays a Google Maps map with the route taken by the car (polyline)
+- :x: Displays a Google Maps map with the stopping places (icons)
+- :heavy_check_mark: Route and stopping places data is requested from the Mapon API
+- :heavy_check_mark: Users must be able to choose a different time period (date from/to)
+- :heavy_check_mark: The project must also include a DB schema or migration script.
+- :heavy_check_mark: Can not use frameworks (Laravel etc)
